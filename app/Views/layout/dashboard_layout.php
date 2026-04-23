@@ -25,7 +25,7 @@
                 <a href="<?= base_url('/dashboard') ?>" class="flex items-center px-4 py-3 bg-primary text-white rounded-lg transition-colors">
                     <span>🏠 Dashboard</span>
                 </a>
-                <a href="#" class="flex items-center px-4 py-3 hover:bg-slate-800 text-slate-300 rounded-lg transition-colors">
+                <a href="<?= base_url('/prestasi') ?>" class="flex items-center px-4 py-3 <?= url_is('prestasi*') ? 'bg-primary text-white' : 'hover:bg-slate-800 text-slate-300' ?> rounded-lg transition-colors">
                     <span>📝 Data Prestasi</span>
                 </a>
                 <?php if (session()->get('role_id') == 1): // Menu khusus Admin 

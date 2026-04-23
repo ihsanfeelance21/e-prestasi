@@ -13,3 +13,4 @@ $routes->get('/logout', 'AuthController::logout');
 
 // Rute Dashboard (sementara kita buat pakai Closure agar cepat untuk testing)
 $routes->get('/dashboard', 'DashboardController::index');
+$routes->get('/prestasi', 'PrestasiController::index');
