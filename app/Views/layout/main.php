@@ -24,7 +24,7 @@
         </div>
     </header>
 
-    <main class="container mx-auto p-4 flex-grow mt-6">
+    <main class="container mx-auto p-4 grow mt-6">
         <?= $this->renderSection('content') ?>
     </main>
 
