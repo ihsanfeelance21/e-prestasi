@@ -1,12 +1,23 @@
 <?= $this->extend('layout/dashboard_layout') ?>
 
 <?= $this->section('content') ?>
+<?php if (session()->getFlashdata('success')): ?>
+    <div x-data="{ show: true }" x-show="show" class="mb-6 bg-green-50 text-green-700 p-4 rounded-lg border border-green-200 flex justify-between items-center shadow-sm">
+        <div class="flex items-center gap-2">
+            <span class="text-xl">✅</span>
+            <p class="font-medium"><?= session()->getFlashdata('success') ?></p>
+        </div>
+        <button @click="show = false" class="text-green-500 hover:text-green-800 font-bold">&times;</button>
+    </div>
+<?php endif; ?>
+
 <div class="flex justify-between items-center mb-6">
     <div>
         <h2 class="text-2xl font-bold text-slate-800">Daftar Prestasi</h2>
         <p class="text-slate-500 text-sm">Kelola dan pantau semua data prestasi di sini.</p>
     </div>
-    <a href="#" class="bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg shadow-sm transition-all flex items-center gap-2">
+
+    <a href="<?= base_url('/prestasi/create') ?>" class="bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg shadow-sm transition-all flex items-center gap-2">
         <span>+</span> Tambah Prestasi
     </a>
 </div>
