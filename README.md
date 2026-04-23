@@ -1,69 +1,96 @@
-# CodeIgniter 4 Application Starter
+# 🏆 e-Prestasi: Sistem Pendataan Prestasi Siswa Modern
 
-## What is CodeIgniter?
+![Maintanance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
+![CodeIgniter 4](https://img.shields.io/badge/CodeIgniter-4.7.2-EF4223?style=flat&logo=codeigniter&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-38B2AC?style=flat&logo=tailwind-css&logoColor=white)
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+Sebuah platform web berbasis _Role-Based Access Control_ (RBAC) yang dirancang untuk membantu instansi pendidikan dalam mencatat, melacak, dan mengelola data pencapaian siswa secara _seamless_ dan terstruktur.
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+---
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## 👨‍💻 Tentang Proyek Ini (Portofolio)
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+Proyek ini dikembangkan oleh **[Nama Anda]** sebagai bagian dari portofolio pengembangan web _Full-Stack_. Fokus utama dalam pengembangan aplikasi ini adalah implementasi **Modern Tech Stack** di atas _framework_ PHP tradisional, serta penerapan praktik keamanan standar industri.
 
-## Installation & updates
+Dalam proyek ini, saya mendemonstrasikan kemampuan:
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+1. **Keamanan & Autentikasi:** Membangun sistem login yang aman dengan _Password Hashing_ (Bcrypt), implementasi _Middleware/Filters_ CI4 untuk memproteksi rute dari akses ilegal, dan aktivasi perlindungan CSRF (_Cross-Site Request Forgery_) secara global.
+2. **Modern UI/UX:** Meninggalkan arsitektur CSS tradisional dan menggunakan **Tailwind CSS versi terbaru (v4)** untuk UI yang responsif, _clean_, dan sangat _customizable_.
+3. **Interaktivitas Ringan:** Menggunakan **Alpine.js** dan **HTMX** untuk memberikan pengalaman layaknya _Single Page Application_ (SPA) yang dinamis tanpa _overhead_ JavaScript yang berat.
+4. **Database Management:** Menggunakan fitur _Migrations_ dan _Seeders_ untuk _version control_ struktur _database_, sehingga aplikasi mudah di-_deploy_ di berbagai lingkungan kerja.
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+---
 
-## Setup
+## ✨ Fitur Utama (Fase Pengembangan)
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+- 🔐 **Sistem Autentikasi Multi-Peran:** Login aman yang membedakan hak akses antara _Admin_ (pengelola sekolah) dan _Siswa_.
+- 🛡️ **Rute Terproteksi:** Seluruh aplikasi diamankan dan tidak dapat diakses tanpa sesi login yang valid.
+- 🎨 **Antarmuka Intuitif:** Desain UI/UX yang modern, _mobile-friendly_, dan interaktif.
+- 📊 **Manajemen Data (Akan Datang):** Fitur CRUD (Create, Read, Update, Delete) untuk mendata berbagai kategori prestasi akademik maupun non-akademik.
 
-## Important Change with index.php
+---
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+## 🛠️ Teknologi yang Digunakan
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+- **Backend:** PHP 8.x, CodeIgniter 4 (v4.7.2)
+- **Frontend:** HTML5, Tailwind CSS v4, Alpine.js, HTMX
+- **Database:** MySQL / MariaDB
+- **Architecture:** MVC (Model-View-Controller)
 
-**Please** read the user guide for a better explanation of how CI4 works!
+---
 
-## Repository Management
+## 🚀 Cara Menjalankan Aplikasi Secara Lokal
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+Jika Anda ingin menjalankan proyek ini di mesin lokal Anda untuk keperluan _review_ atau pengujian, silakan ikuti langkah-langkah berikut:
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+### 1. Kebutuhan Sistem
 
-## Server Requirements
+Pastikan Anda sudah menginstal:
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+- PHP ^8.1
+- Composer
+- Node.js & npm (untuk _compile_ Tailwind CSS)
+- MySQL/MariaDB
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+### 2. Instalasi
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
+Clone repositori ini dan masuk ke dalam folder proyek:
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+```bash
+git clone [https://github.com/username-anda/prestasi-siswa.git](https://github.com/username-anda/prestasi-siswa.git)
+cd prestasi-siswa
+Install dependensi backend (PHP) dan frontend (Node):
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+Bash
+composer install
+npm install
+3. Konfigurasi Environment
+Salin file .env contoh:
+
+Bash
+cp env .env
+Buka file .env dan atur kredensial database Anda pada bagian DATABASE. Jangan lupa ubah CI_ENVIRONMENT menjadi development.
+
+4. Setup Database
+Jalankan migrasi untuk membuat tabel dan seeder untuk mengisi data akun awal:
+
+Bash
+php spark migrate
+php spark db:seed InitialDataSeeder
+5. Kompilasi Aset & Jalankan Server
+Buka dua tab terminal.
+Di terminal pertama, jalankan compiler Tailwind:
+
+Bash
+npx @tailwindcss/cli -i ./src/input.css -o ./public/css/style.css --watch
+Di terminal kedua, jalankan server CodeIgniter:
+
+Bash
+php spark serve
+Aplikasi sekarang dapat diakses melalui http://localhost:8080.
+Akun Default untuk Login:
+
+Username: admin
+
+Password: admin123
+```
