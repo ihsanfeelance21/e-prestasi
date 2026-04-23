@@ -62,8 +62,15 @@
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <div class="flex justify-center gap-2">
-                                    <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors">👁️</button>
-                                    <button class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors">🗑️</button>
+                                    <a href="<?= base_url('/prestasi/edit/' . $item['id']) ?>" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="Edit Data">
+                                        ✏️
+                                    </a>
+
+                                    <a href="<?= base_url('/prestasi/delete/' . $item['id']) ?>"
+                                        onclick="return confirm('Apakah Anda yakin ingin menghapus prestasi \'<?= $item['judul_prestasi'] ?>\'? Data yang dihapus tidak dapat dikembalikan.');"
+                                        class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Hapus Data">
+                                        🗑️
+                                    </a>
                                 </div>
                             </td>
                         </tr>

@@ -16,3 +16,6 @@ $routes->get('/dashboard', 'DashboardController::index');
 $routes->get('/prestasi', 'PrestasiController::index');
 $routes->get('/prestasi/create', 'PrestasiController::create');
 $routes->post('/prestasi/store', 'PrestasiController::store');
+$routes->get('/prestasi/delete/(:num)', 'PrestasiController::delete/$1');
+$routes->get('/prestasi/edit/(:num)', 'PrestasiController::edit/$1');
+$routes->post('/prestasi/update/(:num)', 'PrestasiController::update/$1');

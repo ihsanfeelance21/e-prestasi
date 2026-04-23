@@ -12,6 +12,16 @@
         </a>
     </div>
 
+    <?php if (session()->getFlashdata('error')): ?>
+        <div x-data="{ show: true }" x-show="show" class="mb-6 bg-red-50 text-red-700 p-4 rounded-lg border border-red-200 flex justify-between items-center shadow-sm">
+            <div class="flex items-center gap-2">
+                <span class="text-xl">⚠️</span>
+                <p class="font-medium"><?= session()->getFlashdata('error') ?></p>
+            </div>
+            <button @click="show = false" class="text-red-500 hover:text-red-800 font-bold">&times;</button>
+        </div>
+    <?php endif; ?>
+
     <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 md:p-8">
 
         <?php $validation = \Config\Services::validation(); ?>
@@ -22,27 +32,26 @@
             <div>
                 <label for="judul_prestasi" class="block text-sm font-medium text-slate-700 mb-1">Nama/Judul Prestasi <span class="text-red-500">*</span></label>
                 <input type="text" id="judul_prestasi" name="judul_prestasi" value="<?= old('judul_prestasi') ?>"
-                    class="w-full px-4 py-2 border <?= $validation->hasError('judul_prestasi') ? 'border-red-500' : 'border-slate-300' ?> rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                    placeholder="Contoh: Juara 1 Olimpiade Matematika">
-                <p class="text-red-500 text-xs mt-1"><?= $validation->getError('judul_prestasi') ?></p>
+                    class="w-full px-4 py-2 border <?= $validation->hasError('judul_prestasi') ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:ring-primary' ?> rounded-lg focus:ring-2 outline-none transition-all">
+                <div class="text-red-500 text-xs mt-1"><?= $validation->getError('judul_prestasi') ?></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label for="kategori" class="block text-sm font-medium text-slate-700 mb-1">Kategori <span class="text-red-500">*</span></label>
                     <select id="kategori" name="kategori"
-                        class="w-full px-4 py-2 border <?= $validation->hasError('kategori') ? 'border-red-500' : 'border-slate-300' ?> rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+                        class="w-full px-4 py-2 border <?= $validation->hasError('kategori') ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:ring-primary' ?> rounded-lg focus:ring-2 outline-none transition-all">
                         <option value="">-- Pilih Kategori --</option>
                         <option value="Akademik" <?= old('kategori') == 'Akademik' ? 'selected' : '' ?>>Akademik</option>
                         <option value="Non-Akademik" <?= old('kategori') == 'Non-Akademik' ? 'selected' : '' ?>>Non-Akademik</option>
                     </select>
-                    <p class="text-red-500 text-xs mt-1"><?= $validation->getError('kategori') ?></p>
+                    <div class="text-red-500 text-xs mt-1"><?= $validation->getError('kategori') ?></div>
                 </div>
 
                 <div>
                     <label for="tingkat" class="block text-sm font-medium text-slate-700 mb-1">Tingkat <span class="text-red-500">*</span></label>
                     <select id="tingkat" name="tingkat"
-                        class="w-full px-4 py-2 border <?= $validation->hasError('tingkat') ? 'border-red-500' : 'border-slate-300' ?> rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+                        class="w-full px-4 py-2 border <?= $validation->hasError('tingkat') ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:ring-primary' ?> rounded-lg focus:ring-2 outline-none transition-all">
                         <option value="">-- Pilih Tingkat --</option>
                         <option value="Sekolah" <?= old('tingkat') == 'Sekolah' ? 'selected' : '' ?>>Sekolah</option>
                         <option value="Kabupaten/Kota" <?= old('tingkat') == 'Kabupaten/Kota' ? 'selected' : '' ?>>Kabupaten/Kota</option>
@@ -50,22 +59,22 @@
                         <option value="Nasional" <?= old('tingkat') == 'Nasional' ? 'selected' : '' ?>>Nasional</option>
                         <option value="Internasional" <?= old('tingkat') == 'Internasional' ? 'selected' : '' ?>>Internasional</option>
                     </select>
-                    <p class="text-red-500 text-xs mt-1"><?= $validation->getError('tingkat') ?></p>
+                    <div class="text-red-500 text-xs mt-1"><?= $validation->getError('tingkat') ?></div>
                 </div>
             </div>
 
             <div>
                 <label for="tahun" class="block text-sm font-medium text-slate-700 mb-1">Tahun <span class="text-red-500">*</span></label>
                 <input type="number" id="tahun" name="tahun" value="<?= old('tahun') ?>"
-                    class="w-full md:w-1/3 px-4 py-2 border <?= $validation->hasError('tahun') ? 'border-red-500' : 'border-slate-300' ?> rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                    class="w-full md:w-1/3 px-4 py-2 border <?= $validation->hasError('tahun') ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:ring-primary' ?> rounded-lg focus:ring-2 outline-none transition-all"
                     placeholder="Contoh: 2023">
-                <p class="text-red-500 text-xs mt-1"><?= $validation->getError('tahun') ?></p>
+                <div class="text-red-500 text-xs mt-1"><?= $validation->getError('tahun') ?></div>
             </div>
 
             <div>
                 <label for="deskripsi" class="block text-sm font-medium text-slate-700 mb-1">Deskripsi Tambahan (Opsional)</label>
                 <textarea id="deskripsi" name="deskripsi" rows="4"
-                    class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                    class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all"
                     placeholder="Tuliskan keterangan singkat mengenai prestasi ini..."><?= old('deskripsi') ?></textarea>
             </div>
 
