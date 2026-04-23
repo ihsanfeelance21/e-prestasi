@@ -1,4 +1,4 @@
-# 🏆 e-Prestasi: Sistem Pendataan Prestasi Siswa Modern
+# e-Prestasi: Sistem Pendataan Prestasi Siswa Modern
 
 ![Maintanance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
 ![CodeIgniter 4](https://img.shields.io/badge/CodeIgniter-4.7.2-EF4223?style=flat&logo=codeigniter&logoColor=white)
@@ -8,7 +8,7 @@ Sebuah platform web berbasis _Role-Based Access Control_ (RBAC) yang dirancang u
 
 ---
 
-## 👨‍💻 Tentang Proyek Ini (Portofolio)
+## Tentang Proyek Ini (Portofolio)
 
 Proyek ini dikembangkan oleh **Muhamad Ihsan Kurniawan** sebagai bagian dari portofolio pengembangan web _Full-Stack_. Fokus utama dalam pengembangan aplikasi ini adalah implementasi **Modern Tech Stack** di atas _framework_ PHP tradisional, serta penerapan praktik keamanan standar industri.
 
@@ -21,16 +21,16 @@ Dalam proyek ini, saya mendemonstrasikan kemampuan:
 
 ---
 
-## ✨ Fitur Utama (Fase Pengembangan)
+## Fitur Utama (Fase Pengembangan)
 
-- 🔐 **Sistem Autentikasi Multi-Peran:** Login aman yang membedakan hak akses antara _Admin_ (pengelola sekolah) dan _Siswa_.
-- 🛡️ **Rute Terproteksi:** Seluruh aplikasi diamankan dan tidak dapat diakses tanpa sesi login yang valid.
-- 🎨 **Antarmuka Intuitif:** Desain UI/UX yang modern, _mobile-friendly_, dan interaktif.
-- 📊 **Manajemen Data (Akan Datang):** Fitur CRUD (Create, Read, Update, Delete) untuk mendata berbagai kategori prestasi akademik maupun non-akademik.
+- **Sistem Autentikasi Multi-Peran:** Login aman yang membedakan hak akses antara _Admin_ (pengelola sekolah) dan _Siswa_.
+- **Rute Terproteksi:** Seluruh aplikasi diamankan dan tidak dapat diakses tanpa sesi login yang valid.
+- **Antarmuka Intuitif:** Desain UI/UX yang modern, _mobile-friendly_, dan interaktif.
+- **Manajemen Data (Akan Datang):** Fitur CRUD (Create, Read, Update, Delete) untuk mendata berbagai kategori prestasi akademik maupun non-akademik.
 
 ---
 
-## 🛠️ Teknologi yang Digunakan
+## Teknologi yang Digunakan
 
 - **Backend:** PHP 8.x, CodeIgniter 4 (v4.7.2)
 - **Frontend:** HTML5, Tailwind CSS v4, Alpine.js, HTMX
@@ -39,7 +39,7 @@ Dalam proyek ini, saya mendemonstrasikan kemampuan:
 
 ---
 
-## 🚀 Cara Menjalankan Aplikasi Secara Lokal
+## Cara Menjalankan Aplikasi Secara Lokal
 
 Jika Anda ingin menjalankan proyek ini di mesin lokal Anda untuk keperluan _review_ atau pengujian, silakan ikuti langkah-langkah berikut:
 
