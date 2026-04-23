@@ -10,7 +10,7 @@ Sebuah platform web berbasis _Role-Based Access Control_ (RBAC) yang dirancang u
 
 ## 👨‍💻 Tentang Proyek Ini (Portofolio)
 
-Proyek ini dikembangkan oleh **[Nama Anda]** sebagai bagian dari portofolio pengembangan web _Full-Stack_. Fokus utama dalam pengembangan aplikasi ini adalah implementasi **Modern Tech Stack** di atas _framework_ PHP tradisional, serta penerapan praktik keamanan standar industri.
+Proyek ini dikembangkan oleh **Muhamad Ihsan Kurniawan** sebagai bagian dari portofolio pengembangan web _Full-Stack_. Fokus utama dalam pengembangan aplikasi ini adalah implementasi **Modern Tech Stack** di atas _framework_ PHP tradisional, serta penerapan praktik keamanan standar industri.
 
 Dalam proyek ini, saya mendemonstrasikan kemampuan:
 
@@ -59,37 +59,50 @@ Clone repositori ini dan masuk ke dalam folder proyek:
 ```bash
 git clone [https://github.com/username-anda/prestasi-siswa.git](https://github.com/username-anda/prestasi-siswa.git)
 cd prestasi-siswa
+```
+
 Install dependensi backend (PHP) dan frontend (Node):
 
-Bash
+```bash
 composer install
 npm install
-3. Konfigurasi Environment
-Salin file .env contoh:
+```
 
-Bash
+3. Konfigurasi Environment
+   Salin file .env contoh:
+
+```bash
 cp env .env
+```
+
 Buka file .env dan atur kredensial database Anda pada bagian DATABASE. Jangan lupa ubah CI_ENVIRONMENT menjadi development.
 
 4. Setup Database
-Jalankan migrasi untuk membuat tabel dan seeder untuk mengisi data akun awal:
+   Jalankan migrasi untuk membuat tabel dan seeder untuk mengisi data akun awal:
 
-Bash
+```bash
 php spark migrate
 php spark db:seed InitialDataSeeder
-5. Kompilasi Aset & Jalankan Server
-Buka dua tab terminal.
-Di terminal pertama, jalankan compiler Tailwind:
+```
 
-Bash
+5. Kompilasi Aset & Jalankan Server
+   Buka dua tab terminal.
+   Di terminal pertama, jalankan compiler Tailwind:
+
+```bash
 npx @tailwindcss/cli -i ./src/input.css -o ./public/css/style.css --watch
+```
+
 Di terminal kedua, jalankan server CodeIgniter:
 
-Bash
+```bash
 php spark serve
+```
+
 Aplikasi sekarang dapat diakses melalui http://localhost:8080.
 Akun Default untuk Login:
 
+```bash
 Username: admin
 
 Password: admin123
