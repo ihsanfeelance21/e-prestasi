@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/htmx.org@1.9.11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body class="bg-bglight text-slate-800 font-sans antialiased" x-data="{ sidebarOpen: false }">
@@ -33,6 +34,12 @@
    <?= url_is('prestasi*') ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white' ?>">
                     <span class="mr-3">🏆</span>
                     <span class="font-medium">Data Prestasi</span>
+                </a>
+                <a href="<?= base_url('/siswa') ?>"
+                    class="flex items-center px-4 py-3 mb-2 rounded-lg transition-all duration-200 
+    <?= url_is('siswa*') ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white' ?>">
+                    <span class="mr-3">🎓</span>
+                    <span class="font-medium">Data Siswa</span>
                 </a>
                 <?php if (session()->get('role_id') == 1): // Menu khusus Admin 
                 ?>

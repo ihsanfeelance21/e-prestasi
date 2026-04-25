@@ -21,3 +21,13 @@ $routes->get('/prestasi/edit/(:num)', 'PrestasiController::edit/$1');
 $routes->post('/prestasi/update/(:num)', 'PrestasiController::update/$1');
 // Rute untuk validasi admin
 $routes->get('/prestasi/validate/(:num)/(:any)', 'PrestasiController::validateStatus/$1/$2');
+
+// --- Rute untuk Manajemen Data Siswa ---
+$routes->get('/siswa', 'Siswa::index');           // Menampilkan halaman tabel data siswa
+$routes->get('/siswa/create', 'Siswa::create');     // Menampilkan halaman form tambah siswa
+$routes->post('/siswa/store', 'Siswa::store');      // Memproses data yang dikirim dari form (termasuk upload WebP)
+$routes->post('/siswa/update/(:num)', 'Siswa::update/$1');
+// Rute ini disiapkan untuk tombol Edit dan Hapus yang ada di tabel (meski fungsinya belum kita buat)
+$routes->get('/siswa/edit/(:num)', 'Siswa::edit/$1');
+$routes->get('/siswa/delete/(:num)', 'Siswa::delete/$1');
+$routes->get('/siswa/detail/(:num)', 'Siswa::detail/$1');

@@ -101,8 +101,8 @@
 
             <div class="bg-green-950 rounded-2xl md:rounded-3xl p-6 md:p-14 lg:p-20 relative overflow-hidden shadow-2xl">
                 <div class="absolute right-0 bottom-0 opacity-10 transform translate-x-1/4 translate-y-1/4 hidden sm:block">
-                    <div class="w-64 h-64 md:w-96 md:h-96 border-[12px] md:border-16 border-green-400 rounded-3xl"></div>
-                    <div class="w-64 h-64 md:w-96 md:h-96 border-[12px] md:border-16 border-green-400 rounded-3xl absolute top-8 -left-8 md:top-12 md:-left-12"></div>
+                    <div class="w-64 h-64 md:w-96 md:h-96 border-12 md:border-16 border-green-400 rounded-3xl"></div>
+                    <div class="w-64 h-64 md:w-96 md:h-96 border-12 md:border-16 border-green-400 rounded-3xl absolute top-8 -left-8 md:top-12 md:-left-12"></div>
                 </div>
 
                 <div class="relative z-10 max-w-3xl">
