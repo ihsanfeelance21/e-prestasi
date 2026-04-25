@@ -129,9 +129,9 @@
             <div class="py-3.5 px-5 text-sm font-semibold text-amber-600 border-b-2 border-amber-500 bg-white flex items-center">
                 <i class="fa-solid fa-trophy mr-2"></i> Data Prestasi Siswa
             </div>
-            <button class="bg-primary hover:bg-blue-600 text-white px-3 py-1.5 rounded text-xs font-medium transition-colors shadow-sm flex items-center">
-                <i class="fa-solid fa-plus mr-1.5"></i> Tambah Prestasi
-            </button>
+            <a href="<?= base_url('prestasi/create?user_id=' . $siswa['id']) ?>" class="bg-green-800 hover:bg-green-700 text-white px-4 py-2 rounded">
+                + Tambah Prestasi
+            </a>
         </div>
 
         <div class="p-5 md:p-6">

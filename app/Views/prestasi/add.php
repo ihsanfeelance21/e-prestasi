@@ -29,6 +29,30 @@
         <form action="<?= base_url('/prestasi/store') ?>" method="POST" class="space-y-6">
             <?= csrf_field() ?>
 
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Nama Siswa</label>
+
+                <?php if (isset($siswa_terpilih)): ?>
+                    <input type="hidden" name="nisn_siswa" value="<?= $siswa_terpilih['nisn'] ?>">
+                    <input type="text" value="<?= $siswa_terpilih['nama_siswa'] ?>" readonly
+                        class="w-full px-3 py-2 border rounded-lg bg-slate-100 text-slate-600 cursor-not-allowed">
+
+                <?php else: ?>
+                    <select name="nisn_siswa" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">-- Pilih Siswa --</option>
+                        <?php foreach ($semua_siswa as $s): ?>
+                            <option value="<?= $s['nisn'] ?>" <?= old('nisn_siswa') == $s['nisn'] ? 'selected' : '' ?>>
+                                <?= $s['nama_siswa'] ?> (NISN: <?= $s['nisn'] ?>)
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+
+                <?php endif; ?>
+
+                <?php if (session('validation') && session('validation')->hasError('nisn_siswa')): ?>
+                    <p class="text-red-500 text-sm mt-1"><?= session('validation')->getError('nisn_siswa') ?></p>
+                <?php endif; ?>
+            </div>
             <div>
                 <label for="judul_prestasi" class="block text-sm font-medium text-slate-700 mb-1">Nama/Judul Prestasi <span class="text-red-500">*</span></label>
                 <input type="text" id="judul_prestasi" name="judul_prestasi" value="<?= old('judul_prestasi') ?>"

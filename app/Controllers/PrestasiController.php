@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\PrestasiModel;
+use App\Models\SiswaModel;
 
 class PrestasiController extends BaseController
 {
@@ -30,58 +31,89 @@ class PrestasiController extends BaseController
 
         return view('prestasi/index', $data);
     }
+
     public function create()
     {
+        $siswaModel = new SiswaModel();
+
+        // Tangkap user_id dari URL atau dari old input
+        $userId = $this->request->getGet('user_id') ?? old('user_id');
+
         $data = [
             'title'      => 'Tambah Data Prestasi',
-            'validation' => \Config\Services::validation() // Untuk menangani pesan error validasi
-        ];
+            'validation' => \Config\Services::validation()
+        ]; // <--- ARRAY HARUS DITUTUP DI SINI DENGAN TITIK KOMA
 
+        // Baru jalankan logika pengecekan setelah array ditutup
+        if (!empty($userId)) {
+            // Skenario 1: Tombol diklik dari halaman Detail Siswa
+            $data['siswa_terpilih'] = $siswaModel->find($userId);
+        } else {
+            // Skenario 2: Tombol diklik dari halaman utama Prestasi
+            $data['semua_siswa'] = $siswaModel->findAll();
+        }
+
+        // Catatan: Pastikan nama file view Anda benar 'prestasi/add', 
+        // jika sebelumnya 'prestasi/create', ubah sesuai nama file Anda.
         return view('prestasi/add', $data);
     }
 
     public function store()
     {
-        // 1. Aturan Validasi
+        // 1. Aturan Validasi (Ubah validasi user_id menjadi nisn_siswa)
         $rules = [
-            'judul_prestasi' => [
-                'rules'  => 'required|min_length[3]|max_length[255]',
-                'errors' => ['required' => 'Judul prestasi wajib diisi.']
+            'nisn_siswa' => [
+                'rules'  => (session()->get('role_id') == 1) ? 'required' : 'permit_empty',
+                'errors' => ['required' => 'Silakan pilih nama siswa terlebih dahulu.']
             ],
-            'kategori' => [
-                'rules'  => 'required|in_list[Akademik,Non-Akademik]',
-                'errors' => ['required' => 'Pilih salah satu kategori.']
-            ],
-            'tingkat' => [
-                'rules'  => 'required|in_list[Sekolah,Kabupaten/Kota,Provinsi,Nasional,Internasional]',
-                'errors' => ['required' => 'Pilih tingkat pencapaian.']
-            ],
-            'tahun' => [
-                'rules'  => 'required|exact_length[4]|numeric',
-                'errors' => ['required' => 'Tahun wajib diisi (contoh: 2023).']
-            ]
+            'judul_prestasi' => 'required|min_length[3]|max_length[255]',
+            'kategori'       => 'required|in_list[Akademik,Non-Akademik]',
+            'tingkat'        => 'required|in_list[Sekolah,Kabupaten/Kota,Provinsi,Nasional,Internasional]',
+            'tahun'          => 'required|exact_length[4]|numeric'
         ];
 
-        // 2. Jalankan Validasi
         if (!$this->validate($rules)) {
-            // Jika gagal, kembalikan ke form beserta pesan error dan input sebelumnya
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Gagal menyimpan! Silakan periksa kembali isian Anda.');
         }
 
-        // 3. Simpan ke Database
+        // 2. LOGIKA MENCARI USER_ID BERDASARKAN NISN
+        $roleId = session()->get('role_id');
+        $userIdToSave = null;
+
+        if ($roleId == 1) { // Jika yang input Admin
+            $nisn = $this->request->getPost('nisn_siswa');
+
+            // PERBAIKAN: Gunakan Query Builder agar tidak butuh UserModel
+            $db = \Config\Database::connect();
+
+            // CATATAN: Ganti 'username' di bawah ini dengan nama kolom di tabel users 
+            // yang menampung data NISN (bisa 'username', 'nisn', atau 'email')
+            $user = $db->table('users')->where('username', $nisn)->get()->getRowArray();
+
+            // Jika admin memilih siswa tapi siswa tersebut belum dibuatkan akun login
+            if (empty($user)) {
+                return redirect()->back()->withInput()->with('error', 'Siswa dengan NISN ' . $nisn . ' belum memiliki akun login di sistem!');
+            }
+
+            $userIdToSave = $user['id']; // Dapatkan ID dari tabel users
+
+        } else { // Jika yang input Siswa itu sendiri
+            $userIdToSave = session()->get('user_id');
+        }
+
+        // 3. Simpan ke Database Prestasi
         $this->prestasiModel->save([
-            'user_id'         => session()->get('user_id'), // Ambil ID user yang sedang login
+            'user_id'         => $userIdToSave, // Sekarang ini murni ID dari tabel users!
             'judul_prestasi'  => $this->request->getPost('judul_prestasi'),
             'kategori'        => $this->request->getPost('kategori'),
             'tingkat'         => $this->request->getPost('tingkat'),
             'tahun'           => $this->request->getPost('tahun'),
             'deskripsi'       => $this->request->getPost('deskripsi'),
-            'status_validasi' => 'Menunggu' // Default selalu "Menunggu" saat pertama input
+            'status_validasi' => 'Menunggu'
         ]);
 
-        // 4. Redirect ke halaman utama dengan pesan sukses
         return redirect()->to('/prestasi')->with('success', 'Data prestasi berhasil ditambahkan!');
     }
     public function delete($id)
