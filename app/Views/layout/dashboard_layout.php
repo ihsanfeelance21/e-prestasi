@@ -22,11 +22,17 @@
             </div>
 
             <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-                <a href="<?= base_url('/dashboard') ?>" class="flex items-center px-4 py-3 bg-primary text-white rounded-lg transition-colors">
-                    <span>🏠 Dashboard</span>
+                <a href="<?= base_url('/dashboard') ?>"
+                    class="flex items-center px-4 py-3 mb-2 rounded-lg transition-all duration-200 
+   <?= url_is('dashboard') ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white' ?>">
+                    <span class="mr-3">🏠</span>
+                    <span class="font-medium">Dashboard</span>
                 </a>
-                <a href="<?= base_url('/prestasi') ?>" class="flex items-center px-4 py-3 <?= url_is('prestasi*') ? 'bg-primary text-white' : 'hover:bg-slate-800 text-slate-300' ?> rounded-lg transition-colors">
-                    <span>📝 Data Prestasi</span>
+                <a href="<?= base_url('/prestasi') ?>"
+                    class="flex items-center px-4 py-3 mb-2 rounded-lg transition-all duration-200 
+   <?= url_is('prestasi*') ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white' ?>">
+                    <span class="mr-3">🏆</span>
+                    <span class="font-medium">Data Prestasi</span>
                 </a>
                 <?php if (session()->get('role_id') == 1): // Menu khusus Admin 
                 ?>
