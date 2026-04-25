@@ -62,15 +62,26 @@
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <div class="flex justify-center gap-2">
+                                    <button type="button"
+                                        onclick="confirmStatus('<?= base_url('/prestasi/validate/' . $item['id'] . '/Disetujui') ?>', 'Setujui', 'Setujui prestasi ini?')"
+                                        class="p-2 text-green-600 hover:bg-green-50 rounded-lg">
+                                        ✅
+                                    </button>
+
+                                    <button type="button"
+                                        onclick="confirmStatus('<?= base_url('/prestasi/validate/' . $item['id'] . '/Ditolak') ?>', 'Tolak', 'Tolak prestasi ini?', 'warning')"
+                                        class="p-2 text-red-600 hover:bg-red-50 rounded-lg">
+                                        ❌
+                                    </button>
                                     <a href="<?= base_url('/prestasi/edit/' . $item['id']) ?>" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="Edit Data">
                                         ✏️
                                     </a>
 
-                                    <a href="<?= base_url('/prestasi/delete/' . $item['id']) ?>"
-                                        onclick="return confirm('Apakah Anda yakin ingin menghapus prestasi \'<?= $item['judul_prestasi'] ?>\'? Data yang dihapus tidak dapat dikembalikan.');"
-                                        class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Hapus Data">
+                                    <button type="button"
+                                        onclick="confirmStatus('<?= base_url('/prestasi/delete/' . $item['id']) ?>', 'Hapus', 'Data akan hilang permanen!', 'error')"
+                                        class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
                                         🗑️
-                                    </a>
+                                    </button>
                                 </div>
                             </td>
                         </tr>

@@ -148,4 +148,25 @@ class PrestasiController extends BaseController
 
         return redirect()->to('/prestasi')->with('success', 'Data prestasi berhasil diperbarui!');
     }
+    public function validateStatus($id, $status)
+    {
+        // Keamanan: Hanya Admin yang boleh akses
+        if (session()->get('role_id') != 1) {
+            return redirect()->to('/dashboard')->with('error', 'Akses ditolak!');
+        }
+
+        // PERBAIKAN: Gunakan in_array, bukan in_list
+        $allowedStatus = ['Disetujui', 'Ditolak'];
+        if (!in_array($status, $allowedStatus)) {
+            return redirect()->back()->with('error', 'Status tidak valid.');
+        }
+
+        // Update status_validasi ke database
+        $this->prestasiModel->update($id, [
+            'status_validasi' => $status
+        ]);
+
+        $pesan = ($status == 'Disetujui') ? 'Prestasi telah disetujui!' : 'Prestasi telah ditolak.';
+        return redirect()->to('/prestasi')->with('success', $pesan);
+    }
 }

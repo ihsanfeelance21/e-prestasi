@@ -68,6 +68,38 @@
 
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        function confirmStatus(url, action, text, icon = 'question') {
+            Swal.fire({
+                title: 'Konfirmasi ' + action,
+                text: text,
+                icon: icon,
+                showCancelButton: true,
+                confirmButtonColor: icon === 'error' ? '#ef4444' : (icon === 'warning' ? '#f59e0b' : '#3b82f6'),
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'Ya, Lanjutkan!',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            });
+        }
+
+        // Notifikasi Otomatis untuk Flashdata
+        <?php if (session()->getFlashdata('success')) : ?>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '<?= session()->getFlashdata('success') ?>',
+                timer: 2500,
+                showConfirmButton: false
+            });
+        <?php endif; ?>
+    </script>
 
 </body>
 

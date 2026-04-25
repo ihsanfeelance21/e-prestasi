@@ -19,3 +19,5 @@ $routes->post('/prestasi/store', 'PrestasiController::store');
 $routes->get('/prestasi/delete/(:num)', 'PrestasiController::delete/$1');
 $routes->get('/prestasi/edit/(:num)', 'PrestasiController::edit/$1');
 $routes->post('/prestasi/update/(:num)', 'PrestasiController::update/$1');
+// Rute untuk validasi admin
+$routes->get('/prestasi/validate/(:num)/(:any)', 'PrestasiController::validateStatus/$1/$2');
