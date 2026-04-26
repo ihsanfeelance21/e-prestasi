@@ -43,8 +43,11 @@
                 </a>
                 <?php if (session()->get('role_id') == 1): // Menu khusus Admin 
                 ?>
-                    <a href="#" class="flex items-center px-4 py-3 hover:bg-slate-800 text-slate-300 rounded-lg transition-colors">
-                        <span>👥 Manajemen Pengguna</span>
+                    <a href="<?= base_url('/user') ?>"
+                        class="flex items-center px-4 py-3 mb-2 rounded-lg transition-all duration-200
+                        <?= url_is('user*') ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white' ?>">
+                        <span class="mr-3">👥</span>
+                        <span class="font-medium">Manajemen Pengguna</span>
                     </a>
                 <?php endif; ?>
             </nav>

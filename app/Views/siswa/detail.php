@@ -116,7 +116,38 @@
                             </div>
                         </div>
                     </div>
+                    <div class="flex items-center justify-between py-3 border-b">
+                        <span class="text-sm font-semibold text-gray-600">PASSWORD AKUN</span>
+                        <div class="flex items-center border rounded bg-gray-50 overflow-hidden">
+                            <span class="px-3 text-gray-400 border-r">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
+                                    <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2M2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+                                </svg>
+                            </span>
+                            <input type="password" id="password_siswa" value="<?= $siswa['password_awal'] ?? 'Belum digenerate' ?>"
+                                class="px-3 py-1 text-sm text-gray-800 bg-transparent outline-none w-32" readonly>
 
+                            <button type="button" onclick="togglePassword()" class="px-3 text-gray-500 hover:text-blue-600 focus:outline-none">
+                                <svg id="eye_icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
+                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <script>
+                        function togglePassword() {
+                            const passInput = document.getElementById('password_siswa');
+                            // Jika type password, ubah ke text (agar terlihat). Jika text, kembalikan ke password.
+                            if (passInput.type === 'password') {
+                                passInput.type = 'text';
+                                // Opsional: Anda bisa mengganti icon svg mata tercoret di sini jika mau
+                            } else {
+                                passInput.type = 'password';
+                            }
+                        }
+                    </script>
                 </div>
             </div>
         </div>

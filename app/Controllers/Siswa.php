@@ -69,6 +69,7 @@ class Siswa extends BaseController
     }
 
     // --- Memproses Data Tambah Siswa ---
+    // --- Memproses Data Tambah Siswa ---
     public function store()
     {
         $rules = [
@@ -83,6 +84,7 @@ class Siswa extends BaseController
             return redirect()->to('/siswa/create')->withInput();
         }
 
+        // --- 1. PROSES UPLOAD & KONVERSI FOTO ---
         $fotoFile = $this->request->getFile('foto');
         $namaFotoWebp = 'default.jpg';
 
@@ -103,19 +105,47 @@ class Siswa extends BaseController
             }
         }
 
-        $this->siswaModel->save([
-            'nama_siswa' => $this->request->getPost('nama_siswa'),
-            'kelas'      => $this->request->getPost('kelas'),
-            'nisn'       => $this->request->getPost('nisn'),
-            'email'      => $this->request->getPost('email'),
-            'no_hp'      => $this->request->getPost('no_hp'),
-            'foto_siswa' => $namaFotoWebp
-        ]);
+        // --- 2. GENERATE PASSWORD UNTUK AKUN ---
+        $nisn = $this->request->getPost('nisn');
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+        $passwordAwal = substr(str_shuffle($characters), 0, 6);
+        $passwordHash = password_hash($passwordAwal, PASSWORD_DEFAULT);
 
-        session()->setFlashdata('success', 'Data siswa berhasil ditambahkan dan foto telah dioptimasi!');
-        return redirect()->to('/siswa');
+        // --- 3. MULAI TRANSAKSI DATABASE ---
+        $db = \Config\Database::connect();
+        $db->transStart();
+
+        try {
+            // A. Simpan Akun ke Tabel Users
+            $db->table('users')->insert([
+                'username' => $nisn,
+                'password' => $passwordHash,
+                'role_id'  => 2, // Role Siswa
+            ]);
+
+            // B. Simpan Biodata ke Tabel Siswa (Gabungkan dengan foto & password_awal)
+            $db->table('siswa')->insert([
+                'nama_siswa'    => $this->request->getPost('nama_siswa'),
+                'kelas'         => $this->request->getPost('kelas'),
+                'nisn'          => $nisn,
+                'email'         => $this->request->getPost('email'),
+                'no_hp'         => $this->request->getPost('no_hp'),
+                'foto_siswa'    => $namaFotoWebp,
+                'password_awal' => $passwordAwal
+            ]);
+
+            $db->transComplete();
+
+            if ($db->transStatus() === false) {
+                return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data ke database.');
+            }
+
+            // PERBAIKAN: Redirect dipindah ke paling bawah setelah proses berhasil!
+            return redirect()->to('/siswa')->with('success', 'Data siswa dan akun berhasil dibuat otomatis!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
-
     // --- Menampilkan Form Edit ---
     public function edit($id)
     {
@@ -202,34 +232,37 @@ class Siswa extends BaseController
         return redirect()->to('/siswa');
     }
 
-    // --- Menampilkan Detail Siswa (Dengan Filter & Search Data Prestasi) ---
-    // --- Menampilkan Detail Siswa (Dengan Filter & Search Data Prestasi) ---
     public function detail($id)
     {
-        $data = [
-            'title' => 'Detail Data Siswa',
-            'siswa' => $this->siswaModel->find($id)
-        ];
+        $siswa = $this->siswaModel->find($id);
 
-        // Mencegah error jika ID di URL dimanipulasi ke data yang tidak ada
-        if (empty($data['siswa'])) {
+        if (empty($siswa)) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Data Siswa tidak ditemukan');
         }
 
-        // --- MENGOLAH DATA PRESTASI DI BAWAH PENGECEKAN ERROR ---
+        $data = [
+            'title' => 'Detail Data Siswa',
+            'siswa' => $siswa
+        ];
+
+        // --- MENGOLAH DATA PRESTASI ---
         $prestasiModel = new \App\Models\PrestasiModel();
 
-        // 1. Tangkap parameter filter untuk data prestasi
+        // PERBAIKAN PENTING: Cari dulu ID user di tabel 'users' berdasarkan NISN
+        $db = \Config\Database::connect();
+        $akunUser = $db->table('users')->where('username', $siswa['nisn'])->get()->getRowArray();
+
+        // Jika akunnya tidak ketemu, kita buat id-nya jadi 0 agar query prestasinya aman (kosong)
+        $idAkunUsers = $akunUser ? $akunUser['id'] : 0;
+
         $keyword = $this->request->getGet('keyword');
         $tingkat = $this->request->getGet('tingkat');
         $perPage = $this->request->getGet('per_page') ?? 10;
 
-        // 2. Tarik data prestasi hanya untuk Siswa yang sedang dibuka
-        // PERBAIKAN 1: Ganti 'nama_siswa' menjadi 'user_id' sesuai tabel database
-        $query = $prestasiModel->where('user_id', $id);
+        // Gunakan $idAkunUsers, BUKAN $id tabel siswa
+        $query = $prestasiModel->where('user_id', $idAkunUsers);
 
         if (!empty($keyword)) {
-            // PERBAIKAN 2: Ganti 'nama_lomba' menjadi 'judul_prestasi' sesuai tabel database
             $query = $query->like('judul_prestasi', $keyword);
         }
 
@@ -237,12 +270,10 @@ class Siswa extends BaseController
             $query = $query->where('tingkat', $tingkat);
         }
 
-        // 3. Eksekusi query dengan/tanpa paginasi
         if ($perPage == 'all') {
             $data['prestasi'] = $query->findAll();
             $data['pager']    = null;
         } else {
-            // Parameter kedua 'prestasi' digunakan untuk grouping pagination agar tidak tabrakan
             $data['prestasi'] = $query->paginate((int)$perPage, 'prestasi');
             $data['pager']    = $prestasiModel->pager;
         }

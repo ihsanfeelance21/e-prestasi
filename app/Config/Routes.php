@@ -31,3 +31,13 @@ $routes->post('/siswa/update/(:num)', 'Siswa::update/$1');
 $routes->get('/siswa/edit/(:num)', 'Siswa::edit/$1');
 $routes->get('/siswa/delete/(:num)', 'Siswa::delete/$1');
 $routes->get('/siswa/detail/(:num)', 'Siswa::detail/$1');
+
+// Rute Manajemen User
+$routes->get('/user', 'UserController::index');
+$routes->get('/user/reset-login/(:num)', 'UserController::resetLogin/$1');
+$routes->get('/user/reset-password/(:num)', 'UserController::resetPassword/$1');
+$routes->get('/user/delete/(:num)', 'UserController::delete/$1');
+$routes->get('/user/generate-siswa', 'UserController::generateAkunSiswa');
+// Rute Ganti Password (Untuk User yang sedang login)
+$routes->get('/profil/ganti-password', 'UserController::gantiPassword');
+$routes->post('/profil/proses-ganti-password', 'UserController::prosesGantiPassword');
