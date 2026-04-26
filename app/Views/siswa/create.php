@@ -21,6 +21,21 @@
     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
         <form action="<?= base_url('/siswa/store') ?>" method="POST" enctype="multipart/form-data" class="p-6">
             <?= csrf_field() ?>
+            <?php if (session()->getFlashdata('errors')) : ?>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <ul class="list-disc pl-5">
+                        <?php foreach (session()->getFlashdata('errors') as $error) : ?>
+                            <li><?= esc($error) ?></li>
+                        <?php endforeach ?>
+                    </ul>
+                </div>
+            <?php endif ?>
+
+            <?php if (session()->getFlashdata('error')) : ?>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <?= esc(session()->getFlashdata('error')) ?>
+                </div>
+            <?php endif ?>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-4">

@@ -70,6 +70,7 @@ class Siswa extends BaseController
 
     // --- Memproses Data Tambah Siswa ---
     // --- Memproses Data Tambah Siswa ---
+    // --- Memproses Data Tambah Siswa ---
     public function store()
     {
         $rules = [
@@ -80,8 +81,11 @@ class Siswa extends BaseController
             'foto'       => 'max_size[foto,2048]|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png,image/webp]'
         ];
 
+        // PERBAIKAN 1: Kirimkan pesan error validasi ke halaman create
         if (!$this->validate($rules)) {
-            return redirect()->to('/siswa/create')->withInput();
+            return redirect()->to('/siswa/create')
+                ->withInput()
+                ->with('errors', $this->validator->getErrors());
         }
 
         // --- 1. PROSES UPLOAD & KONVERSI FOTO ---
@@ -107,28 +111,36 @@ class Siswa extends BaseController
 
         // --- 2. GENERATE PASSWORD UNTUK AKUN ---
         $nisn = $this->request->getPost('nisn');
+        $email = $this->request->getPost('email'); // Tangkap email dari form
         $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
         $passwordAwal = substr(str_shuffle($characters), 0, 6);
         $passwordHash = password_hash($passwordAwal, PASSWORD_DEFAULT);
+        $waktuSekarang = date('Y-m-d H:i:s');
 
         // --- 3. MULAI TRANSAKSI DATABASE ---
         $db = \Config\Database::connect();
         $db->transStart();
 
         try {
-            // A. Simpan Akun ke Tabel Users
+            // PERBAIKAN 2: Sesuaikan nama kolom tabel users (password_hash, is_active, dll)
             $db->table('users')->insert([
-                'username' => $nisn,
-                'password' => $passwordHash,
-                'role_id'  => 2, // Role Siswa
+                'username'       => $nisn,
+                'email'          => $email,
+                'password_hash'  => $passwordHash,
+                'role_id'        => 2, // Role Siswa
+                'is_active'      => 1, // Akun langsung aktif
+                'login_attempts' => 0,
+                'locked_until'   => null,
+                'created_at'     => $waktuSekarang,
+                'updated_at'     => $waktuSekarang
             ]);
 
-            // B. Simpan Biodata ke Tabel Siswa (Gabungkan dengan foto & password_awal)
+            // B. Simpan Biodata ke Tabel Siswa
             $db->table('siswa')->insert([
                 'nama_siswa'    => $this->request->getPost('nama_siswa'),
                 'kelas'         => $this->request->getPost('kelas'),
                 'nisn'          => $nisn,
-                'email'         => $this->request->getPost('email'),
+                'email'         => $email,
                 'no_hp'         => $this->request->getPost('no_hp'),
                 'foto_siswa'    => $namaFotoWebp,
                 'password_awal' => $passwordAwal
@@ -140,7 +152,6 @@ class Siswa extends BaseController
                 return redirect()->back()->withInput()->with('error', 'Gagal menyimpan data ke database.');
             }
 
-            // PERBAIKAN: Redirect dipindah ke paling bawah setelah proses berhasil!
             return redirect()->to('/siswa')->with('success', 'Data siswa dan akun berhasil dibuat otomatis!');
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
